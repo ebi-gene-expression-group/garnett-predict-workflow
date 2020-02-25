@@ -1,0 +1,9 @@
+name: monocle3-cli
+channels:
+  - bioconda
+  - conda-forge 
+  - defaults 
+dependencies:
+  - monocle3-cli=0.0.6
+  - r-workflowscriptscommon
+  - r-optparse
