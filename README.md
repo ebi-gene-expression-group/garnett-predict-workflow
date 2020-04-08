@@ -4,7 +4,9 @@ Workflow for generating predicted labels on a library of pre-trained [garnett-cl
 This workflow relies on [monocle-scripts](https://github.com/ebi-gene-expression-group/monocle-scripts) to initialise a CDS object from input expression data. This CDS object is then used as an input to the classifiers. A list of prediction tables in standardised format is created as output. 
 
 ### Running the workflow 
-To run the workflow, you will need to have [nextflow](https://www.nextflow.io/) installed. It is recommended to run the workflow in a clean conda environment. Specify the input parameters in `nextflow.config`. Then run the following commands: 
+To run the workflow, you will need to have [nextflow](https://www.nextflow.io/) installed. It is recommended to run the workflow in a clean conda environment. Specify the input parameters in `nextflow.config`. Expression data are supplied as stadnard 10X-type directories that must contain three files: `matrix.mtx`, `genes.tsv`, and `barcodes.tsv`. Specify the path to this direcory in the `query_10x_dir` parameter in config file.   
+
+Then run the following commands: 
 
 ```
 conda install nextflow 
