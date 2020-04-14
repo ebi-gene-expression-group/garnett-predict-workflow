@@ -17,7 +17,7 @@ process build_query_cds {
         file("query_cds_obj.rds") into QUERY_CDS_OBJECT
 
     """
-    monocle create query_cds_obj.rds\
+    monocle3 create query_cds_obj.rds\
             --expression-matrix ${query_10x_dir}/matrix.mtx\
             --cell-metadata ${query_10x_dir}/barcodes.tsv\
             --gene-annotation ${query_10x_dir}/genes.tsv
@@ -67,7 +67,13 @@ process get_final_tables {
     garnett_get_std_output.R\
             --input-object ${pred_labs_object}\
             --predicted-cell-type-field ${params.predicted_cell_type_field}\
-            --output-file-path ${acc}_final_labs.tsv
+            --output-file-path ${acc}_labs.tsv
+
+
+    # add metadata fields to output table
+    echo "# dataset ${acc}" > ${acc}_final_labs.tsv
+    echo "# tool garnett" >> ${acc}_final_labs.tsv
+    cat ${acc}_labs.tsv >> ${acc}_final_labs.tsv
     """
 }
 
@@ -90,7 +96,7 @@ process combine_labels{
 }
 
 process select_top_labs {
-    conda "${baseDir}/envs/cell_types_analysis.yaml" 
+    conda "${baseDir}/envs/cell-types-analysis.yaml" 
     publishDir "${params.results_dir}", mode: 'copy'
 
     input:
@@ -101,7 +107,8 @@ process select_top_labs {
 
     """
     combine_tool_outputs.R\
-        --input-dir ${labels_dir}\
+        --input-dir ${label_dir}\
+        --top-labels-num 2\
         --output-table garnett_output.tsv
     """
 }
