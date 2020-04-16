@@ -95,6 +95,8 @@ process combine_labels{
     """
 }
 
+GARNETT_LABELS_DIR.view()
+
 process select_top_labs {
     conda "${baseDir}/envs/cell-types-analysis.yaml" 
     publishDir "${params.results_dir}", mode: 'copy'
